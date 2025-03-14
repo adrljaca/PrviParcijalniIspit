@@ -3,10 +3,10 @@ package SustavEvidencijeVozila;
 public class Automobil extends Vozilo {
     private int brojVrata;
 
-    public Automobil(String reg_br, String marka, int god_proizv, int brojVrata) throws NeispravniPodaciException {
-        super(reg_br, marka, god_proizv);
-        if (brojVrata < 0) {
-            throw new NeispravniPodaciException("Broj vrata ne može biti negativan.");
+    public Automobil(String regBr, String marka, int godiste, int brojVrata) throws NeispravniPodaciException {
+        super(regBr, marka, godiste);
+        if (brojVrata <= 0) {
+            throw new NeispravniPodaciException("Broj vrata ne može biti negativan ili nula.");
         }
         this.brojVrata = brojVrata;
     }
@@ -15,16 +15,17 @@ public class Automobil extends Vozilo {
         return brojVrata;
     }
 
-    public void setBrojVrata(int brojVrata) throws NeispravniPodaciException {
-        if (brojVrata < 0) {
-            throw new NeispravniPodaciException("Broj vrata ne može biti negativan.");
-        }
+    public void setBrojVrata(int brojVrata) {
         this.brojVrata = brojVrata;
     }
 
     @Override
-    public void prikaziPodatke() {
-        super.prikaziPodatke();
-        System.out.print("\t\tBroj vrata: " + getBrojVrata());
+    public String prikaziPodatke() {
+        return super.prikaziPodatke() + "\t\tBroj vrata: " + brojVrata;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\t\tBroj vrata: " + brojVrata;
     }
 }

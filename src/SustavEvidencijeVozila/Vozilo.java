@@ -1,25 +1,32 @@
 package SustavEvidencijeVozila;
 
 public class Vozilo {
-    private String reg_br;
+    private String regBr;
     private String marka;
-    private int god_proizv;
+    private int godiste;
 
-    public Vozilo(String reg_br, String marka, int god_proizv) throws NeispravniPodaciException {
-        if (god_proizv < 0) {
-            throw new NeispravniPodaciException("Godina proizvodnje ne može biti negativna.");
+    public Vozilo(String regBr, String marka, int godiste) throws NeispravniPodaciException {
+        if (regBr == null || regBr.isEmpty()) {
+            throw new NeispravniPodaciException("Registarski broj ne može biti prazno polje.");
         }
-        this.reg_br = reg_br;
+        if (marka == null || marka.isEmpty()) {
+            throw new NeispravniPodaciException("Marka ne može biti prazno polje.");
+        }
+        if (godiste <= 0) {
+            throw new NeispravniPodaciException("Godište ne može biti negativan broj.");
+        }
+
+        this.regBr = regBr;
         this.marka = marka;
-        this.god_proizv = god_proizv;
+        this.godiste = godiste;
     }
 
-    public String getReg_br() {
-        return reg_br;
+    public String getRegBr() {
+        return regBr;
     }
 
-    public void setReg_br(String reg_br) {
-        this.reg_br = reg_br;
+    public void setRegBr(String regBr) {
+        this.regBr = regBr;
     }
 
     public String getMarka() {
@@ -30,25 +37,15 @@ public class Vozilo {
         this.marka = marka;
     }
 
-    public int getGod_proizv() {
-        return god_proizv;
+    public int getGodiste() {
+        return godiste;
     }
 
-    public void setGod_proizv(int god_proizv) throws NeispravniPodaciException {
-        if (god_proizv < 0) {
-            throw new NeispravniPodaciException("Godina proizvodnje ne može biti negativna.");
-        }
-        this.god_proizv = god_proizv;
+    public void setGodiste(int godiste) {
+        this.godiste = godiste;
     }
 
-    public void ucitajPodatke(String reg_br, String marka, int god_proizv) throws NeispravniPodaciException {
-        setReg_br(reg_br);
-        setMarka(marka);
-        setGod_proizv(god_proizv);
-    }
-
-    public void prikaziPodatke() {
-        System.out.println("Registarski broj: " + getReg_br() + "\t\tMarka: " + getMarka() +
-                "\t\tGodina proizvodnje: " + getGod_proizv());
+    public String prikaziPodatke() {
+        return "Registarski broj: " + regBr + "\t\tMarka: " + marka + "\t\tGodište: " + godiste;
     }
 }

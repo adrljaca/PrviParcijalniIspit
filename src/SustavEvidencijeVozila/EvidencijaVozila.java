@@ -1,30 +1,53 @@
 package SustavEvidencijeVozila;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class EvidencijaVozila {
-    private static List<Vozilo> vozila;
-    private static String putanja = "C:/Users/arija/Desktop/Vozila.txt";
+    private static List<Vozilo> vozila = new ArrayList<>();
 
+    public static void main(String[] args) throws IOException, NeispravniPodaciException {
+        //Predefinirana vozila
+        Automobil auto1 = new Automobil("OS-535-ZZ", "BMW", 2024, 2);
+        Automobil auto2 = new Automobil("ZG-9067-DF", "Audi", 2023, 4);
+        Motocikl motor1 = new Motocikl("NA-5678-GI", "Yamaha", 2021,"Sportski");
+        Motocikl motor2 = new Motocikl("DJ-134-JU", "Kawasaki", 2018,"Normalni");
+
+        //Dodajemo u listu vozila
+        vozila.add(auto1);
+        vozila.add(auto2);
+        vozila.add(motor1);
+        vozila.add(motor2);
+
+        //Metoda pomoću koje učitavamo podatke od korisnika i na osnovu toga kreiramo vozilo
+        ucitajPodatke();
+
+        //Metoda za spremanje liste vozila u .txt datoteku
+        spremiPodatkeUDatoteku("C://Users//arija//Desktop//Vozila.txt");
+
+        //Metoda za učitavanje podataka iz datoteke vozila
+        ucitajPodatkeIzDatoteke("C://Users//arija//Desktop//Vozila.txt");
+    }
+
+    //Kreiramo i spremamo listu vozila u .txt datoteku
     public static void spremiPodatkeUDatoteku(String datoteka) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(datoteka));
-        for (Vozilo v : vozila) {
-            writer.write(v.getClass().getSimpleName() + "\n");
-            writer.write(v.getReg_br() + "\n");
-            writer.write(v.getMarka() + "\n");
-            writer.write(v.getGod_proizv() + "\n");
-            if (v instanceof Automobil) {
-                writer.write(((Automobil) v).getBrojVrata() + "\n");
-            } else if (v instanceof Motocikl) {
-                writer.write(((Motocikl) v).getTipMotora() + "\n");
-            }
+
+        for (Vozilo vozilo : vozila) {
+            writer.write(vozilo.prikaziPodatke());
+            writer.write("\n");
         }
+        System.out.println("Vozila su spremljena na " + datoteka + "\n");
+
         writer.close();
     }
 
+    //Učitavamo podatke iz .txt datoteke
     public static void ucitajPodatkeIzDatoteke(String datoteka) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(datoteka));
+
         String linija;
 
         while ((linija = reader.readLine()) != null) {
@@ -34,19 +57,53 @@ public class EvidencijaVozila {
         reader.close();
     }
 
-    public static void main(String[] args) throws IOException, NeispravniPodaciException {
-        Vozilo auto = new Automobil("OS1996", "Opel", 2020,4);
-        Vozilo motor = new Motocikl("ZG555", "Yamaha", 2022,"Trkači");
+    //Metoda za kreiranje novog vozila unošenjem podataka
+    public static void ucitajPodatke() {
+        Scanner scanner = new Scanner(System.in);
 
-        vozila.add(auto);
-        vozila.add(motor);
+        //Pitamo korisnika da se odluči za jednu od dvije opcije
+        System.out.print("Unesite tip vozila (1 za Auto, 2 za Motocikl): ");
+        int tipVozila = scanner.nextInt();
+        scanner.nextLine();
 
-        for (Vozilo v : vozila) {
-            System.out.println(v);
+        Vozilo vozilo = null;
+
+        //Ukoliko korisnik unese broj 1, unosimo podatke te kreiramo objekt Automobil
+        if (tipVozila == 1) {
+            System.out.println("Unesite podatke za Automobil:");
+            System.out.println("Registarski broj: ");
+            String regBr = scanner.nextLine();
+            System.out.println("Marka: ");
+            String marka = scanner.nextLine();
+            System.out.println("Godište: ");
+            int godiste = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Broj vrata: ");
+            int brojVrata = scanner.nextInt();
+            scanner.nextLine();
+
+            vozilo = new Automobil(regBr,marka,godiste,brojVrata);
+
+            //Ukoliko korisnik unese broj 2, unosimo podatke te kreiramo objekt Motocikl
+        } else if (tipVozila == 2) {
+            System.out.println("Unesite podatke za Motocikl:");
+            System.out.println("Registarski broj: ");
+            String regBr = scanner.nextLine();
+            System.out.println("Marka: ");
+            String marka = scanner.nextLine();
+            System.out.println("Godište: ");
+            int godiste = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Tip motora: ");
+            String tipMotora = scanner.nextLine();
+
+            vozilo = new Motocikl(regBr,marka,godiste,tipMotora);
+
+        } else {
+            System.out.println("Netočan tip vozila.");
         }
 
-        //spremiPodatkeUDatoteku(putanja);
-
-        //ucitajPodatkeIzDatoteke(putanja);
+        //Dodajemo kreirano vozilo u listu vozila
+        vozila.add(vozilo);
     }
 }
