@@ -50,6 +50,8 @@ public class EvidencijaVozila {
 
         String linija;
 
+        System.out.println("Učitavanje podataka iz datoteke " + datoteka + "\n");
+
         while ((linija = reader.readLine()) != null) {
             System.out.println(linija);
         }
@@ -104,6 +106,7 @@ public class EvidencijaVozila {
         }
 
         //Dodajemo kreirano vozilo u listu vozila
+        System.out.println("Vozilo kreirano i dodano u listu vozila.");
         vozila.add(vozilo);
     }
 }
