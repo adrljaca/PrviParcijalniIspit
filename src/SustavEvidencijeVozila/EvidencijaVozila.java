@@ -9,6 +9,8 @@ public class EvidencijaVozila {
     private static List<Vozilo> vozila = new ArrayList<>();
 
     public static void main(String[] args) throws IOException, NeispravniPodaciException {
+        Scanner scan = new Scanner(System.in);
+
         //Predefinirana vozila
         Automobil auto1 = new Automobil("OS-535-ZZ", "BMW", 2024, 2);
         Automobil auto2 = new Automobil("ZG-9067-DF", "Audi", 2023, 4);
@@ -22,13 +24,28 @@ public class EvidencijaVozila {
         vozila.add(motor2);
 
         //Metoda pomoću koje učitavamo podatke od korisnika i na osnovu toga kreiramo vozilo
-        ucitajPodatke();
+        while (true) {
+            System.out.print("Unesite (1 za učitavanje, 2 za izlaz):");
+            int opcija = scan.nextInt();
+            scan.nextLine();
+            if (opcija == 1) {
+                ucitajPodatke();
+            } else if (opcija == 2) {
+                break;
+            } else {
+                System.out.println("Krivi unos, ponovite!");
+            }
+        }
 
-        //Metoda za spremanje liste vozila u .txt datoteku
-        spremiPodatkeUDatoteku("C://Users//arija//Desktop//Vozila.txt");
+        //Za spremanje liste vozila u .txt datoteku
+        System.out.print("Unesite putanju datoteke: ");
+        String putanja = scan.nextLine();
+        spremiPodatkeUDatoteku(putanja);
 
-        //Metoda za učitavanje podataka iz datoteke vozila
-        ucitajPodatkeIzDatoteke("C://Users//arija//Desktop//Vozila.txt");
+        //Za učitavanje podataka iz datoteke vozila
+        System.out.print("Unesite putanju datoteke učitavanja:");
+        putanja = scan.nextLine();
+        ucitajPodatkeIzDatoteke(putanja);
     }
 
     //Kreiramo i spremamo listu vozila u .txt datoteku
